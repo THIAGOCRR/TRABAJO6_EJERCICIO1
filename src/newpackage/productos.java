@@ -5,17 +5,22 @@
  */
 package newpackage;
 
-/**
- *
- * @author CRN
- */
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import logica.Producto;
+
 public class productos extends javax.swing.JFrame {
 
-    /**
-     * Creates new form productos
-     */
+    DefaultTableModel modelo = new DefaultTableModel();
+    ArrayList<Producto> listaProducto = new ArrayList<Producto>();
+            
     public productos() {
         initComponents();
+        modelo.addColumn("Nombre");
+        modelo.addColumn("Categoria");
+        modelo.addColumn("Precio");
+        refrescarTabla();
     }
 
     /**
@@ -29,12 +34,12 @@ public class productos extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         panel1 = new javax.swing.JPanel();
-        Perfumeria = new javax.swing.JComboBox<>();
+        cbCategoria = new javax.swing.JComboBox<>();
         categoriaText = new javax.swing.JLabel();
         nombreText = new javax.swing.JLabel();
         precioText = new javax.swing.JLabel();
-        panel2 = new javax.swing.JTextField();
-        panel3 = new javax.swing.JTextField();
+        jtNombre = new javax.swing.JTextField();
+        jtPrecio = new javax.swing.JTextField();
         btnAgregar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -46,7 +51,7 @@ public class productos extends javax.swing.JFrame {
 
         panel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        Perfumeria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Perfumeria", "Ropa", "Farmacia", "Limpieza", "Comestible" }));
+        cbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Perfumeria", "Ropa", "Farmacia", "Limpieza", "Comestible" }));
 
         categoriaText.setText("Categoria");
 
@@ -56,6 +61,11 @@ public class productos extends javax.swing.JFrame {
 
         btnAgregar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/icons8-carrito-de-compras-48.png"))); // NOI18N
         btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
@@ -70,9 +80,9 @@ public class productos extends javax.swing.JFrame {
                         .addComponent(nombreText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(53, 53, 53)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(Perfumeria, 0, 200, Short.MAX_VALUE)
-                    .addComponent(panel2)
-                    .addComponent(panel3))
+                    .addComponent(cbCategoria, 0, 200, Short.MAX_VALUE)
+                    .addComponent(jtNombre)
+                    .addComponent(jtPrecio))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -82,17 +92,17 @@ public class productos extends javax.swing.JFrame {
             .addGroup(panel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Perfumeria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(categoriaText))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(panel1Layout.createSequentialGroup()
                         .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(nombreText)
-                            .addComponent(panel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(panel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(precioText)))
                     .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(55, Short.MAX_VALUE))
@@ -143,6 +153,34 @@ public class productos extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+      try{  
+        Producto producto = new Producto();
+        producto.setCategoria(cbCategoria.getSelectedItem().toString());
+        producto.setNombre(jtNombre.getText().toString());
+        producto.setPrecio(Double.parseDouble(jtPrecio.getText().toString()));
+        listaProducto.add(producto);
+        refrescarTabla();
+      }catch(Exception e){
+          JOptionPane.showMessageDialog(this, "Error al ingresar Producto");
+      }
+        
+    }//GEN-LAST:event_btnAgregarActionPerformed
+     public void refrescarTabla(){
+         //Borrar todos los elementos del modelo
+         while(modelo.getRowCount()>0){
+             modelo.removeRow(0);
+         }
+         for (Producto producto : listaProducto) {
+             Object a[] = new Object[3];
+             a[0]=producto.getCategoria();
+             a[1]=producto.getNombre();
+             a[2]=producto.getPrecio();
+             modelo.addRow(a);  
+         }
+         
+         jTable1.setModel(modelo);
+     }
     /**
      * @param args the command line arguments
      */
@@ -179,16 +217,16 @@ public class productos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> Perfumeria;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JLabel categoriaText;
+    private javax.swing.JComboBox<String> cbCategoria;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jtNombre;
+    private javax.swing.JTextField jtPrecio;
     private javax.swing.JLabel nombreText;
     private javax.swing.JPanel panel1;
-    private javax.swing.JTextField panel2;
-    private javax.swing.JTextField panel3;
     private javax.swing.JLabel precioText;
     // End of variables declaration//GEN-END:variables
 }
