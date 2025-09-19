@@ -154,16 +154,24 @@ public class productos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-      try{  
+      try{
         Producto producto = new Producto();
+        
         producto.setCategoria(cbCategoria.getSelectedItem().toString());
-        producto.setNombre(jtNombre.getText().toString());
+        
+        
+        producto.setNombre(jtNombre.getText());
+        
+        if(jtNombre.getText().isEmpty()){JOptionPane.showMessageDialog(this, "Ingrese el nombre del producto");return;}
+        
+        
         producto.setPrecio(Double.parseDouble(jtPrecio.getText().toString()));
         listaProducto.add(producto);
+        
+        
         refrescarTabla();
-      }catch(Exception e){
-          JOptionPane.showMessageDialog(this, "Error al ingresar Producto");
-      }
+      }catch(NumberFormatException e ){ JOptionPane.showMessageDialog(this, "ingrese un numero valido"); }
+      catch(Exception i ){JOptionPane.showMessageDialog(this, "error al ingresar producto");}
         
     }//GEN-LAST:event_btnAgregarActionPerformed
      public void refrescarTabla(){
