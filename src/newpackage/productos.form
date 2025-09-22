@@ -88,9 +88,9 @@
                   </Group>
                   <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="cbCategoria" pref="200" max="32767" attributes="0"/>
-                      <Component id="jtNombre" max="32767" attributes="0"/>
-                      <Component id="jtPrecio" max="32767" attributes="0"/>
+                      <Component id="jcomboCategoria" pref="200" max="32767" attributes="0"/>
+                      <Component id="jtextNombre" max="32767" attributes="0"/>
+                      <Component id="jtextPrecio" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="btnAgregar" min="-2" pref="162" max="-2" attributes="0"/>
@@ -103,7 +103,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="cbCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jcomboCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="categoriaText" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -111,11 +111,11 @@
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="nombreText" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jtNombre" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jtextNombre" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="jtPrecio" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jtextPrecio" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="precioText" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -127,18 +127,10 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JComboBox" name="cbCategoria">
-          <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="5">
-                <StringItem index="0" value="Perfumeria"/>
-                <StringItem index="1" value="Ropa"/>
-                <StringItem index="2" value="Farmacia"/>
-                <StringItem index="3" value="Limpieza"/>
-                <StringItem index="4" value="Comestible"/>
-              </StringArray>
-            </Property>
-          </Properties>
+        <Component class="javax.swing.JComboBox" name="jcomboCategoria">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jcomboCategoriaActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
@@ -158,9 +150,9 @@
             <Property name="text" type="java.lang.String" value="Precio:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jtNombre">
+        <Component class="javax.swing.JTextField" name="jtextNombre">
         </Component>
-        <Component class="javax.swing.JTextField" name="jtPrecio">
+        <Component class="javax.swing.JTextField" name="jtextPrecio">
         </Component>
         <Component class="javax.swing.JButton" name="btnAgregar">
           <Properties>
@@ -182,7 +174,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTable1">
+        <Component class="javax.swing.JTable" name="jTableProductos">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="3" rowCount="4">

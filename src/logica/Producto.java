@@ -1,26 +1,15 @@
-
 package logica;
 
 public class Producto {
-    String categoria;
+
     String nombre;
+    String categoria;
     double precio;
 
-    public Producto() {
-    }
-
-    public Producto(String categoria, String nombre, double precio) {
-        this.categoria = categoria;
+    public Producto(String nombre, String categoria, double precio) {
         this.nombre = nombre;
-        this.precio = precio;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
         this.categoria = categoria;
+        this.precio = precio;
     }
 
     public String getNombre() {
@@ -29,6 +18,14 @@ public class Producto {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     public double getPrecio() {
@@ -41,11 +38,9 @@ public class Producto {
 
     @Override
     public String toString() {
-        return "Producto{" + "categoria=" + categoria + ", nombre=" + nombre + ", precio=" + precio + '}';
+        return "Producto{" + "nombre=" + nombre + ", categoria=" + categoria + ", precio=" + precio + '}';
     }
+    
+    
 
-    
-    
-    
-    
 }

@@ -14,13 +14,24 @@ public class productos extends javax.swing.JFrame {
 
     DefaultTableModel modelo = new DefaultTableModel();
     ArrayList<Producto> listaProducto = new ArrayList<Producto>();
-            
+
     public productos() {
         initComponents();
+
+        jcomboCategoria.removeAllItems();
+        jcomboCategoria.addItem("Categoria");
+        jcomboCategoria.addItem("Limpieza");
+        jcomboCategoria.addItem("Perfumeria");
+        jcomboCategoria.addItem("Electronica");
+        jcomboCategoria.addItem("Comestibles");
+        jcomboCategoria.addItem("Bebidas");
+        jcomboCategoria.addItem("Otros");
+        jcomboCategoria.setSelectedIndex(0);
+
         modelo.addColumn("Nombre");
         modelo.addColumn("Categoria");
         modelo.addColumn("Precio");
-        refrescarTabla();
+
     }
 
     /**
@@ -34,15 +45,15 @@ public class productos extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         panel1 = new javax.swing.JPanel();
-        cbCategoria = new javax.swing.JComboBox<>();
+        jcomboCategoria = new javax.swing.JComboBox<>();
         categoriaText = new javax.swing.JLabel();
         nombreText = new javax.swing.JLabel();
         precioText = new javax.swing.JLabel();
-        jtNombre = new javax.swing.JTextField();
-        jtPrecio = new javax.swing.JTextField();
+        jtextNombre = new javax.swing.JTextField();
+        jtextPrecio = new javax.swing.JTextField();
         btnAgregar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableProductos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -51,7 +62,11 @@ public class productos extends javax.swing.JFrame {
 
         panel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        cbCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Perfumeria", "Ropa", "Farmacia", "Limpieza", "Comestible" }));
+        jcomboCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jcomboCategoriaActionPerformed(evt);
+            }
+        });
 
         categoriaText.setText("Categoria");
 
@@ -80,9 +95,9 @@ public class productos extends javax.swing.JFrame {
                         .addComponent(nombreText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(53, 53, 53)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cbCategoria, 0, 200, Short.MAX_VALUE)
-                    .addComponent(jtNombre)
-                    .addComponent(jtPrecio))
+                    .addComponent(jcomboCategoria, 0, 200, Short.MAX_VALUE)
+                    .addComponent(jtextNombre)
+                    .addComponent(jtextPrecio))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -92,23 +107,23 @@ public class productos extends javax.swing.JFrame {
             .addGroup(panel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcomboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(categoriaText))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(panel1Layout.createSequentialGroup()
                         .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(nombreText)
-                            .addComponent(jtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtextNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtextPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(precioText)))
                     .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(55, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -119,7 +134,7 @@ public class productos extends javax.swing.JFrame {
                 "Nombre", "Categoria", "Precio"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTableProductos);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -154,33 +169,63 @@ public class productos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-      try{  
-        Producto producto = new Producto();
-        producto.setCategoria(cbCategoria.getSelectedItem().toString());
-        producto.setNombre(jtNombre.getText().toString());
-        producto.setPrecio(Double.parseDouble(jtPrecio.getText().toString()));
-        listaProducto.add(producto);
+        String nombre = jtextNombre.getText();
+        String categoria = (String) jcomboCategoria.getSelectedItem();
+        String sPrecio = jtextPrecio.getText();
+
+        if (nombre.isEmpty() || categoria.isEmpty() || sPrecio.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios para ingresar un producto.");
+            return;
+        }
+
+        if (jcomboCategoria.getSelectedItem().equals("Categoria")) {
+            JOptionPane.showMessageDialog(this, "Seleccione una categoria valida.");
+            return;
+        }
+
+        Double precio;
+        try {
+            precio = Double.valueOf(sPrecio);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Formato no valido para campo numerico.");
+            return;
+        }
+
+        for (Producto pr : listaProducto) {
+            if (!nombre.isEmpty() && nombre.equals(pr.getNombre()) && categoria.equals(pr.getCategoria())) {
+                int opcion = JOptionPane.showConfirmDialog(this, "El producto que intenta ingresar ya se encuentra en la lista. Desea agregarlo de todas formas?", "Producto existente", JOptionPane.YES_NO_OPTION);
+                if (opcion != JOptionPane.YES_OPTION) {
+                    return;
+                } else {
+                    break;
+                }
+            }
+        }
+        Producto produ = new Producto(nombre, categoria, precio);
+        listaProducto.add(produ);
+
+        JOptionPane.showMessageDialog(this, "Se agrego el producto correctamente.");
+        jtextNombre.setText("");
+        jcomboCategoria.setSelectedIndex(0);
+        jtextPrecio.setText("");
         refrescarTabla();
-      }catch(Exception e){
-          JOptionPane.showMessageDialog(this, "Error al ingresar Producto");
-      }
-        
     }//GEN-LAST:event_btnAgregarActionPerformed
-     public void refrescarTabla(){
-         //Borrar todos los elementos del modelo
-         while(modelo.getRowCount()>0){
-             modelo.removeRow(0);
-         }
-         for (Producto producto : listaProducto) {
-             Object a[] = new Object[3];
-             a[0]=producto.getCategoria();
-             a[1]=producto.getNombre();
-             a[2]=producto.getPrecio();
-             modelo.addRow(a);  
-         }
-         
-         jTable1.setModel(modelo);
-     }
+
+    private void jcomboCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcomboCategoriaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcomboCategoriaActionPerformed
+
+    public void refrescarTabla() {
+        modelo.setRowCount(0);
+        for (Producto producto : listaProducto) {
+            modelo.addRow(new Object[]{
+                producto.getNombre(),
+                producto.getCategoria(),
+                producto.getPrecio(),});
+        }
+        jTableProductos.setModel(modelo);
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -195,16 +240,24 @@ public class productos extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(productos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(productos.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(productos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(productos.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(productos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(productos.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(productos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(productos.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -219,12 +272,12 @@ public class productos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
     private javax.swing.JLabel categoriaText;
-    private javax.swing.JComboBox<String> cbCategoria;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jtNombre;
-    private javax.swing.JTextField jtPrecio;
+    private javax.swing.JTable jTableProductos;
+    private javax.swing.JComboBox<String> jcomboCategoria;
+    private javax.swing.JTextField jtextNombre;
+    private javax.swing.JTextField jtextPrecio;
     private javax.swing.JLabel nombreText;
     private javax.swing.JPanel panel1;
     private javax.swing.JLabel precioText;
